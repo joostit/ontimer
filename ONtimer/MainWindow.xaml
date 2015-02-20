@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:visualFx="http://mixmodes.com/visualFx"
         Title="It's ON!" Height="295" Width="435"
-        MinHeight="100"
+        MinHeight="150"
         MinWidth="200"
         Icon="ON 16x16.png" >
     <Grid DataContext="{Binding}">
@@ -24,19 +24,26 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Viewbox Grid.Column="1" Stretch="Uniform">
-                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesTenBox" Text="{Binding Path=MinuteTens, FallbackValue=X}" MouseDown="minutesTenBox_MouseDown"/>
+                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesTenBox" Text="{Binding Path=MinuteTens, FallbackValue=1}" MouseDown="minutesTenBox_MouseDown"/>
                 </Viewbox>
                 <Viewbox Grid.Column="2" Stretch="Uniform">
-                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=MinuteSingle, FallbackValue=X}" MouseDown="minutesSingleBox_MouseDown"/>
+                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=MinuteSingle, FallbackValue=2}" MouseDown="minutesSingleBox_MouseDown"/>
                 </Viewbox>
-                <Viewbox Grid.Column="3">
-                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" HorizontalAlignment="Center" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}">:</TextBlock>
-                </Viewbox>
+                <Grid Grid.Column="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=".2*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height=".2*"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox Grid.Row="1">
+                        <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" HorizontalAlignment="Center" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}">:</TextBlock>
+                    </Viewbox>
+                </Grid>
                 <Viewbox Grid.Column="4">
-                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsTenBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=SecondsTens, FallbackValue=X}" MouseDown="secondsTenBox_MouseDown"/>
+                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsTenBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=SecondsTens, FallbackValue=3}" MouseDown="secondsTenBox_MouseDown"/>
                 </Viewbox>
                 <Viewbox Grid.Column="5">
-                    <TextBlock FontWeight="Bold"  Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=SecondsSingle, FallbackValue=X}" MouseDown="secondsSingleBox_MouseDown"/>
+                    <TextBlock FontWeight="Bold"  Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=SecondsSingle, FallbackValue=4}" MouseDown="secondsSingleBox_MouseDown"/>
                 </Viewbox>
 
             </Grid>
@@ -49,7 +56,7 @@
             </Grid.ColumnDefinitions>
 
             <Button BorderBrush="White" Background="White" Grid.Column="1" x:Name="startStopResetButton" Click="startStopResetButton_Click" MouseLeave="startStopResetButton_MouseLeave">
-                <Image Source="ON.png" Margin="0,10,0,10"/>
+                <Image Source="ON.png" Margin="0,10,0,5"/>
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="Green"/>
