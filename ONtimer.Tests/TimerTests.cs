@@ -28,7 +28,7 @@ namespace ONtimer.Tests
             timer.Minutes = 23;
             timer.Seconds = 45;
 
-            timer.Reset();
+            timer.ResetToInitialValue();
 
             Assert.AreEqual(timer.Minutes, 0);
             Assert.AreEqual(timer.Seconds, 0);

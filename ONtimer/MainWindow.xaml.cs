@@ -39,34 +39,61 @@ namespace ONtimer
             InitializeComponent();
             DataContext = this.Timer;
             doubleClickTimer = new DispatcherTimer();
-            doubleClickTimer.Tick += doubleClickTimer_Tick;
+            doubleClickTimer.Tick += doubleClickTimerTick;
         }
 
-        void doubleClickTimer_Tick(object sender, EventArgs e)
+        private void doubleClickTimerTick(object sender, EventArgs e)
         {
-            performSingleButtonClick();
+            applyClickAmount();
+        }
+
+        void applyClickAmount()
+        {
+            doubleClickTimer.Stop();
+
+            if (clickCount == 1)
+            {
+                performSingleButtonClick();
+            }
+            if (clickCount == 2)
+            {
+                performDoubleButtonClick();
+            }
+            if (clickCount == 3)
+            {
+                performTripleButtonClick();
+            }
+
+            clickCount = 0;
         }
 
 
         private void performSingleButtonClick()
         {
-            doubleClickTimer.Stop();
-            clickCount = 0;
             startStopTimer();
         }
 
 
-        private void startStopTimer()
+        private void performDoubleButtonClick()
         {
             if (timer.IsRunning)
             {
                 timer.Stop();
             }
-            else
-            {
-                timer.Start();
-            }
+
+            timer.ResetToInitialValue();
         }
+
+        private void performTripleButtonClick()
+        {
+            if (timer.IsRunning)
+            {
+                timer.Stop();
+            }
+
+            timer.ResetToZero();
+        }
+
 
         private void startStopResetButton_Click(object sender, RoutedEventArgs e)
         {
@@ -79,28 +106,45 @@ namespace ONtimer
             }
             else
             {
-                doubleClickTimer.Stop();
-                clickCount = 0;
-                resetTimer();
+                if (clickCount <= 3)
+                {
+                    doubleClickTimer.Stop();
+                    doubleClickTimer.Start();
+                }
+                else
+                {
+                    doubleClickTimer.Stop();
+                    clickCount = 0;
+                }
             }
         }
 
-
-        private void resetTimer()
+        private void startStopTimer()
         {
             if (timer.IsRunning)
             {
                 timer.Stop();
             }
-
-            timer.Reset();
+            else
+            {
+                if ((timer.Minutes == 0) && (timer.Seconds == 0))
+                {
+                    timer.Mode = SessionTimer.TimerModes.Up;
+                }
+                else
+                {
+                    timer.Mode = SessionTimer.TimerModes.Down;
+                }
+                timer.Start();
+            }
         }
+
 
         private void startStopResetButton_MouseLeave(object sender, MouseEventArgs e)
         {
             if (doubleClickTimer.IsEnabled)
             {
-                performSingleButtonClick();
+                applyClickAmount();
             }
         }
 
@@ -110,11 +154,11 @@ namespace ONtimer
             {
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
-                    timer.Minutes += 1;
+                    timer.Minutes += 10;
                 }
                 if (e.RightButton == MouseButtonState.Pressed)
                 {
-                    timer.Minutes -= 1;
+                    timer.Minutes -= 10;
                 }
             }
         }

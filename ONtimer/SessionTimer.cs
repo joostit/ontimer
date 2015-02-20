@@ -12,6 +12,27 @@ namespace ONtimer
     {
 
         /// <summary>
+        /// Defines timer modes
+        /// </summary>
+        public enum TimerModes
+        {
+            /// <summary>
+            /// Counting upward
+            /// </summary>
+            Up,
+
+            /// <summary>
+            /// Counting downward
+            /// </summary>
+            Down
+        }
+
+        /// <summary>
+        /// Gets or sets the mode, indication upward, or downward counting
+        /// </summary>
+        public TimerModes Mode {get;set;}
+
+        /// <summary>
         /// Returns if the timer is currently running
         /// </summary>
         public bool IsRunning
@@ -61,6 +82,9 @@ namespace ONtimer
             NotifyPropertyChanged("MinuteTens");
         }
 
+        /// <summary>
+        /// Gets the string representation of the ten-units for the minute value
+        /// </summary>
         public String MinuteTens
         {
             get
@@ -70,6 +94,9 @@ namespace ONtimer
             }
         }
 
+        /// <summary>
+        /// Gets the string representation of the single-units for the minute value
+        /// </summary>
         public String MinuteSingle
         {
             get
@@ -79,6 +106,9 @@ namespace ONtimer
             }
         }
 
+        /// <summary>
+        /// Gets the string representation of the ten-units for the seconds value
+        /// </summary>
         public String SecondsTens
         {
             get
@@ -88,6 +118,9 @@ namespace ONtimer
             }
         }
 
+        /// <summary>
+        /// Gets the string representation of the single-units for the seconds value
+        /// </summary>
         public String SecondsSingle
         {
             get
@@ -101,9 +134,14 @@ namespace ONtimer
 
         private DispatcherTimer timer;
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public event EventHandler TimerExpired;
+
+        /// <summary>
+        /// The value the timer had when it started
+        /// </summary>
+        private TimeSpan startValue = new TimeSpan();
 
         public SessionTimer()
         {
@@ -113,6 +151,9 @@ namespace ONtimer
             timer.Interval = new TimeSpan(0, 0, 0, 1, 0);
         }
 
+        /// <summary>
+        /// Ensures the current timer value is correct
+        /// </summary>
         private void validateTimerValue()
         {
             if (value.TotalSeconds < 0)
@@ -121,18 +162,39 @@ namespace ONtimer
             }
         }
 
+
+        /// <summary>
+        /// Starts the timer
+        /// </summary>
         public void Start()
         {
+            startValue = value;
             timer.Start();
         }
 
+        /// <summary>
+        /// Stops the timer
+        /// </summary>
         public void Stop()
         {
             timer.Stop();
         }
 
-        public void Reset()
+        /// <summary>
+        /// Resets the timer to the value at which it was started
+        /// </summary>
+        public void ResetToInitialValue()
         {
+            value = startValue;
+            notifyValuePropertiesChanged();
+        }
+
+        /// <summary>
+        /// Resets the timer to zero
+        /// </summary>
+        public void ResetToZero()
+        {
+            startValue = new TimeSpan();
             value = new TimeSpan();
             notifyValuePropertiesChanged();
         }
@@ -140,8 +202,31 @@ namespace ONtimer
 
         void timer_Tick(object sender, EventArgs e)
         {
-            value += new TimeSpan(0, 0, 1);
+            switch (Mode)
+            {
+                case TimerModes.Up:
+                    value += new TimeSpan(0, 0, 1);
+                    break;
+                case TimerModes.Down:
+                    value -= new TimeSpan(0, 0, 1);
+                    break;
+                default:
+                    throw new Exception("Unknown TimerMode: " + Mode.ToString());
+            }
+            
             notifyValuePropertiesChanged();
+
+            if (Mode == TimerModes.Down)
+            {
+                if ((Minutes == 0) && (Seconds == 0))
+                {
+                    Stop();
+                    if (TimerExpired != null)
+                    {
+                        TimerExpired(this, new EventArgs());
+                    }
+                }
+            }
         }
 
         private void NotifyPropertyChanged(string propertyName)
