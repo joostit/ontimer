@@ -32,9 +32,8 @@ namespace ONtimer
             set
             {
                 this.value = new TimeSpan(0, this.value.Minutes, value);
-                NotifyPropertyChanged("Seconds");
-                NotifyPropertyChanged("SecondsTens");
-                NotifyPropertyChanged("SecondsSingle");
+                validateTimerValue();
+                notifyValuePropertiesChanged();
             }
         }
 
@@ -47,10 +46,19 @@ namespace ONtimer
             set
             {
                 this.value = new TimeSpan(0, value, this.value.Seconds);
-                NotifyPropertyChanged("Minutes");
-                NotifyPropertyChanged("MinuteSingle");
-                NotifyPropertyChanged("MinuteTens");
+                validateTimerValue();
+                notifyValuePropertiesChanged();
             }
+        }
+
+        private void notifyValuePropertiesChanged()
+        {
+            NotifyPropertyChanged("Seconds");
+            NotifyPropertyChanged("SecondsTens");
+            NotifyPropertyChanged("SecondsSingle");
+            NotifyPropertyChanged("Minutes");
+            NotifyPropertyChanged("MinuteSingle");
+            NotifyPropertyChanged("MinuteTens");
         }
 
         public String MinuteTens
@@ -105,6 +113,14 @@ namespace ONtimer
             timer.Interval = new TimeSpan(0, 0, 0, 1, 0);
         }
 
+        private void validateTimerValue()
+        {
+            if (value.TotalSeconds < 0)
+            {
+                value = new TimeSpan(0, 0, 0);
+            }
+        }
+
         public void Start()
         {
             timer.Start();
@@ -118,14 +134,14 @@ namespace ONtimer
         public void Reset()
         {
             value = new TimeSpan();
-            updateValues();
+            notifyValuePropertiesChanged();
         }
 
 
         void timer_Tick(object sender, EventArgs e)
         {
             value += new TimeSpan(0, 0, 1);
-            updateValues();
+            notifyValuePropertiesChanged();
         }
 
         private void NotifyPropertyChanged(string propertyName)
@@ -136,11 +152,5 @@ namespace ONtimer
             }
         }
 
-
-        private void updateValues()
-        {
-            Seconds = value.Seconds;
-            Minutes = value.Minutes;
-        }
     }
 }

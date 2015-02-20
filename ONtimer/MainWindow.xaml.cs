@@ -104,5 +104,65 @@ namespace ONtimer
             }
         }
 
+        private void minutesTenBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!timer.IsRunning)
+            {
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    timer.Minutes += 1;
+                }
+                if (e.RightButton == MouseButtonState.Pressed)
+                {
+                    timer.Minutes -= 1;
+                }
+            }
+        }
+
+        private void minutesSingleBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!timer.IsRunning)
+            {
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    timer.Minutes += 1;
+                }
+                if (e.RightButton == MouseButtonState.Pressed)
+                {
+                    timer.Minutes -= 1;
+                }
+            }
+        }
+
+        private void secondsTenBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!timer.IsRunning)
+            {
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    timer.Seconds += 10;
+                }
+                if (e.RightButton == MouseButtonState.Pressed)
+                {
+                    timer.Seconds -= 10;
+                }
+            }
+        }
+
+        private void secondsSingleBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!timer.IsRunning)
+            {
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    timer.Seconds += 1;
+                }
+                if (e.RightButton == MouseButtonState.Pressed)
+                {
+                    timer.Seconds -= 1;
+                }
+            }
+        }
+
     }
 }

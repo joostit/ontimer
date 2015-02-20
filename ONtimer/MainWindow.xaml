@@ -13,30 +13,30 @@
             <RowDefinition Height="2*"  MinHeight="30"/>
         </Grid.RowDefinitions>
         <Border BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="5"  Grid.Row="1">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2.5*"/>
-                <ColumnDefinition Width="2.5*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2.5*"/>
-                <ColumnDefinition Width="2.5*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Viewbox Grid.Column="1" Stretch="Uniform">
-                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesTenBox" Text="{Binding Path=MinuteTens, FallbackValue=X}"/>
-            </Viewbox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2.5*"/>
+                    <ColumnDefinition Width="2.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2.5*"/>
+                    <ColumnDefinition Width="2.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Viewbox Grid.Column="1" Stretch="Uniform">
+                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesTenBox" Text="{Binding Path=MinuteTens, FallbackValue=X}" MouseDown="minutesTenBox_MouseDown"/>
+                </Viewbox>
                 <Viewbox Grid.Column="2" Stretch="Uniform">
-                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=MinuteSingle, FallbackValue=X}"/>
+                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=MinuteSingle, FallbackValue=X}" MouseDown="minutesSingleBox_MouseDown"/>
                 </Viewbox>
                 <Viewbox Grid.Column="3">
-                <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}">:</TextBlock>
-            </Viewbox>
-            <Viewbox Grid.Column="4">
-                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsTenBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=SecondsTens, FallbackValue=X}"/> 
-            </Viewbox>
+                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" HorizontalAlignment="Center" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}">:</TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="4">
+                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsTenBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=SecondsTens, FallbackValue=X}" MouseDown="secondsTenBox_MouseDown"/>
+                </Viewbox>
                 <Viewbox Grid.Column="5">
-                    <TextBlock FontWeight="Bold"  Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=SecondsSingle, FallbackValue=X}"/>
+                    <TextBlock FontWeight="Bold"  Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=SecondsSingle, FallbackValue=X}" MouseDown="secondsSingleBox_MouseDown"/>
                 </Viewbox>
 
             </Grid>
@@ -70,7 +70,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            
+
         </Grid>
 
     </Grid>
