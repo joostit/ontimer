@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -58,8 +59,15 @@ namespace ONtimer
             InitializeComponent();
             DataContext = this;//.Timer;
             doubleClickTimer = new DispatcherTimer();
+            timer.TimerExpired += timer_TimerExpired;
             doubleClickTimer.Tick += doubleClickTimerTick;
             this.SizeChanged += MainWindow_SizeChanged;
+        }
+
+        void timer_TimerExpired(object sender, EventArgs e)
+        {
+            Storyboard blinkAnimation = (Storyboard)FindResource("clockBlink");
+            blinkAnimation.Begin(this);
         }
 
         void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)

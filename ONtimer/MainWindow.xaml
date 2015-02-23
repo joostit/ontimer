@@ -9,7 +9,7 @@
     <Window.Resources>
         <Style x:Key="MainButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="BorderBrush" Value="Orange"/>
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Margin" Value="3,3,3,3"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -21,14 +21,50 @@
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
+
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="White"/>
-                    <Setter Property="Margin" Value="0,0,0,0"/>
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <ThicknessAnimation To="0,0,0,0" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <ThicknessAnimation To="3,3,3,3" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.1" FillBehavior="Stop"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                    <Setter Property="Background" Value="Transparent"/>
                 </Trigger>
+
+                <Trigger Property="IsPressed" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <ThicknessAnimation To="4,4,4,4" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.05" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <ThicknessAnimation To="0,0,0,0" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.05" FillBehavior="Stop"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+
             </Style.Triggers>
-            
         </Style>
-        
+
+        <Storyboard x:Key="clockBlink" RepeatBehavior="5x">
+            <ColorAnimation To="#FF7300" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.3" AccelerationRatio="0.9"/>
+            <ColorAnimation BeginTime="0:0:0.3" From="#FF7300"  To="{x:Null}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.1" AccelerationRatio="0.9"/>
+        </Storyboard>
+
     </Window.Resources>
     <Grid DataContext="{Binding}">
         <Grid.RowDefinitions>
@@ -36,7 +72,10 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="2*"  MinHeight="30"/>
         </Grid.RowDefinitions>
-        <Border BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="{Binding Path=ClockBorderThickness, Mode=OneWay}"  Grid.Row="1">
+        <Border x:Name="ClockBorder" BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="{Binding Path=ClockBorderThickness, Mode=OneWay}"  Grid.Row="1">
+            <Border.Triggers>
+                
+            </Border.Triggers>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -80,7 +119,7 @@
             </Grid.ColumnDefinitions>
 
             <Button Style="{StaticResource MainButtonStyle}" Grid.Column="1" x:Name="startStopResetButton" Click="startStopResetButton_Click" MouseLeave="startStopResetButton_MouseLeave">
-                <Image Source="ON.png" Margin="0,10,0,5"/>
+                <Image Source="ON-transparent.png" Margin="0,10,0,5"/>
             </Button>
 
         </Grid>
