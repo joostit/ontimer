@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,9 @@ namespace ONtimer
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         private SessionTimer timer = new SessionTimer();
 
         private DispatcherTimer doubleClickTimer = new DispatcherTimer();
@@ -34,12 +36,36 @@ namespace ONtimer
             }
         }
 
+        private double clockBorderThickness = 5;
+
+        /// <summary>
+        /// Gets the orange border thickness
+        /// </summary>
+        public double ClockBorderThickness
+        {
+            get { return clockBorderThickness; }
+            set
+            {
+                clockBorderThickness = value;
+                raisePropertyChanged("ClockBorderThickness");
+            }
+        }
+
+
+
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = this.Timer;
+            DataContext = this;//.Timer;
             doubleClickTimer = new DispatcherTimer();
             doubleClickTimer.Tick += doubleClickTimerTick;
+            this.SizeChanged += MainWindow_SizeChanged;
+        }
+
+        void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double lowest = this.ActualHeight < this.ActualWidth ? this.ActualHeight : this.ActualWidth;
+            ClockBorderThickness = lowest / 25;
         }
 
         private void doubleClickTimerTick(object sender, EventArgs e)
@@ -208,5 +234,15 @@ namespace ONtimer
             }
         }
 
+        private void raisePropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+
+        
     }
 }

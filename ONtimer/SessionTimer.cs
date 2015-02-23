@@ -221,11 +221,17 @@ namespace ONtimer
                 if ((Minutes == 0) && (Seconds == 0))
                 {
                     Stop();
-                    if (TimerExpired != null)
-                    {
-                        TimerExpired(this, new EventArgs());
-                    }
+                    raiseTimerExpired();
                 }
+            }
+        }
+
+
+        private void raiseTimerExpired()
+        {
+            if (TimerExpired != null)
+            {
+                TimerExpired(this, new EventArgs());
             }
         }
 
