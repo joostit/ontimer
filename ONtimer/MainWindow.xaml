@@ -5,8 +5,21 @@
         Title="ON! timer" Height="295" Width="435"
         MinHeight="150"
         MinWidth="200"
-        Icon="ON 16x16.png" >
+        Icon="ON 16x16.png">
     <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="doubleClickButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Background="{TemplateBinding Property=Background}"
+                              Width="{TemplateBinding Property=Width}"
+                              Height="{TemplateBinding Property=Height}">
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="MainButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="BorderBrush" Value="Orange"/>
             <Setter Property="Background" Value="Transparent"/>
@@ -72,9 +85,12 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="2*"  MinHeight="30"/>
         </Grid.RowDefinitions>
+
+        <Button Style="{StaticResource doubleClickButton}" x:Name="resizeControl" Grid.Row="0" Background="Transparent" MouseDoubleClick="resizeControl_MouseDoubleClick"/>
+
         <Border x:Name="ClockBorder" BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="{Binding Path=ClockBorderThickness, Mode=OneWay}"  Grid.Row="1">
             <Border.Triggers>
-                
+
             </Border.Triggers>
             <Grid>
                 <Grid.ColumnDefinitions>

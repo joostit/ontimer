@@ -194,6 +194,7 @@ namespace ONtimer
                 {
                     timer.Minutes -= 10;
                 }
+                e.Handled = true;
             }
         }
 
@@ -209,6 +210,7 @@ namespace ONtimer
                 {
                     timer.Minutes -= 1;
                 }
+                e.Handled = true;
             }
         }
 
@@ -224,6 +226,7 @@ namespace ONtimer
                 {
                     timer.Seconds -= 10;
                 }
+                e.Handled = true;
             }
         }
 
@@ -239,6 +242,7 @@ namespace ONtimer
                 {
                     timer.Seconds -= 1;
                 }
+                e.Handled = true;
             }
         }
 
@@ -247,6 +251,25 @@ namespace ONtimer
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void resizeControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (this.WindowState != System.Windows.WindowState.Maximized) // Go fullscreen
+            {
+                this.WindowStyle = System.Windows.WindowStyle.None;
+                this.WindowState = System.Windows.WindowState.Maximized;
+            }
+            else // Go windowed
+            {
+                this.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
+                this.WindowState = System.Windows.WindowState.Normal;
             }
         }
 
