@@ -331,6 +331,11 @@ namespace ONtimer
             this.Close();
         }
 
+        private void clockBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            e.Handled = true; //need to suppress empty menu
+        }
+
         
     }
 }

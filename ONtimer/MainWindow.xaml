@@ -124,10 +124,10 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Viewbox Grid.Column="1" Stretch="Uniform">
-                        <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesTenBox" Text="{Binding Path=Timer.MinuteTens, FallbackValue=1}" MouseDown="minutesTenBox_MouseDown"/>
+                        <TextBlock ContextMenuOpening="clockBox_ContextMenuOpening" FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesTenBox" Text="{Binding Path=Timer.MinuteTens, FallbackValue=1}" MouseDown="minutesTenBox_MouseDown"/>
                     </Viewbox>
                     <Viewbox Grid.Column="2" Stretch="Uniform">
-                        <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.MinuteSingle, FallbackValue=2}" MouseDown="minutesSingleBox_MouseDown"/>
+                        <TextBlock ContextMenuOpening="clockBox_ContextMenuOpening" FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.MinuteSingle, FallbackValue=2}" MouseDown="minutesSingleBox_MouseDown"/>
                     </Viewbox>
                     <Grid Grid.Column="3">
                         <Grid.RowDefinitions>
@@ -140,10 +140,10 @@
                         </Viewbox>
                     </Grid>
                     <Viewbox Grid.Column="4">
-                        <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsTenBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.SecondsTens, FallbackValue=3}" MouseDown="secondsTenBox_MouseDown"/>
+                        <TextBlock ContextMenuOpening="clockBox_ContextMenuOpening" FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsTenBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.SecondsTens, FallbackValue=3}" MouseDown="secondsTenBox_MouseDown"/>
                     </Viewbox>
                     <Viewbox Grid.Column="5">
-                        <TextBlock FontWeight="Bold"  Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.SecondsSingle, FallbackValue=4}" MouseDown="secondsSingleBox_MouseDown"/>
+                        <TextBlock ContextMenuOpening="clockBox_ContextMenuOpening" FontWeight="Bold"  Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.SecondsSingle, FallbackValue=4}" MouseDown="secondsSingleBox_MouseDown"/>
                     </Viewbox>
 
                 </Grid>
