@@ -254,12 +254,8 @@ namespace ONtimer
             }
         }
 
-        private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
 
-        }
-
-        private void resizeControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void toggleWindowState()
         {
             if (this.WindowState != System.Windows.WindowState.Maximized) // Go fullscreen
             {
@@ -268,11 +264,72 @@ namespace ONtimer
             }
             else // Go windowed
             {
-                this.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
+                this.WindowStyle = System.Windows.WindowStyle.None;
                 this.WindowState = System.Windows.WindowState.Normal;
             }
         }
 
+        private void resizeControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            toggleWindowState();
+            e.Handled = true;
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void Window_MouseEnter(object sender, MouseEventArgs e)
+        {
+            this.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+        }
+
+        private void Window_MouseLeave(object sender, MouseEventArgs e)
+        {
+            this.ResizeMode = System.Windows.ResizeMode.NoResize;
+        }
+
+        private void MenuItem_CountDown(object sender, RoutedEventArgs e)
+        {
+            timer.Mode = SessionTimer.TimerModes.Down;
+            timer.Start();
+        }
+
+        private void MenuItem_CountUp(object sender, RoutedEventArgs e)
+        {
+            timer.Mode = SessionTimer.TimerModes.Up;
+            timer.Start();
+        }
+
+        private void MenuItem_Stop(object sender, RoutedEventArgs e)
+        {
+            timer.Stop();
+        }
+        
+
+        private void MenuItem_ResetZero(object sender, RoutedEventArgs e)
+        {
+            if (timer.IsRunning)
+            {
+                timer.Stop();
+            }
+
+            timer.ResetToZero();
+        }
+
+        private void MenuItem_windowState(object sender, RoutedEventArgs e)
+        {
+            toggleWindowState();
+        }
+
+        private void MenuItem_Close(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
 
         
     }

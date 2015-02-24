@@ -5,8 +5,15 @@
         Title="ON! timer" Height="295" Width="435"
         MinHeight="150"
         MinWidth="200"
-        Icon="ON 16x16.png">
+        Icon="ON 16x16.png"
+        MouseDown="Window_MouseDown"
+        MouseEnter="Window_MouseEnter"
+        MouseLeave="Window_MouseLeave"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="NoResize">
     <Window.Resources>
+
         <Style TargetType="{x:Type Button}" x:Key="doubleClickButton">
             <Setter Property="Template">
                 <Setter.Value>
@@ -79,66 +86,81 @@
         </Storyboard>
 
     </Window.Resources>
-    <Grid DataContext="{Binding}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="2*"  MinHeight="30"/>
-        </Grid.RowDefinitions>
+    
+    <Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Count _Up" Click="MenuItem_CountUp"/>
+            <MenuItem Header="Count _Down" Click="MenuItem_CountDown"/>
+            <MenuItem Header="_Reset to zero" Click="MenuItem_ResetZero"/>
+            <MenuItem Header="_Stop" Click="MenuItem_Stop"/>
+            <Separator />
+            <MenuItem Header="_Windowed/Fullscreen" Click="MenuItem_windowState"/>
+            <MenuItem Header="_Close" Click="MenuItem_Close"/>
+        </ContextMenu>
+    </Window.ContextMenu>
+    
+    <Border BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="1">
+        <Grid DataContext="{Binding}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="2*"  MinHeight="30"/>
+            </Grid.RowDefinitions>
 
-        <Button Style="{StaticResource doubleClickButton}" x:Name="resizeControl" Grid.Row="0" Background="Transparent" MouseDoubleClick="resizeControl_MouseDoubleClick"/>
+            <Button IsTabStop="False" Style="{StaticResource doubleClickButton}" x:Name="resizeControl" Grid.Row="0" Background="Transparent" MouseDoubleClick="resizeControl_MouseDoubleClick"/>
 
-        <Border x:Name="ClockBorder" BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="{Binding Path=ClockBorderThickness, Mode=OneWay}"  Grid.Row="1">
-            <Border.Triggers>
+            <Border x:Name="ClockBorder" BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="{Binding Path=ClockBorderThickness, Mode=OneWay}"  Grid.Row="1">
+                <Border.Triggers>
 
-            </Border.Triggers>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2.5*"/>
-                    <ColumnDefinition Width="2.5*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2.5*"/>
-                    <ColumnDefinition Width="2.5*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Viewbox Grid.Column="1" Stretch="Uniform">
-                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesTenBox" Text="{Binding Path=Timer.MinuteTens, FallbackValue=1}" MouseDown="minutesTenBox_MouseDown"/>
-                </Viewbox>
-                <Viewbox Grid.Column="2" Stretch="Uniform">
-                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.MinuteSingle, FallbackValue=2}" MouseDown="minutesSingleBox_MouseDown"/>
-                </Viewbox>
-                <Grid Grid.Column="3">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height=".2*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height=".2*"/>
-                    </Grid.RowDefinitions>
-                    <Viewbox Grid.Row="1">
-                        <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" HorizontalAlignment="Center" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}">:</TextBlock>
+                </Border.Triggers>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2.5*"/>
+                        <ColumnDefinition Width="2.5*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2.5*"/>
+                        <ColumnDefinition Width="2.5*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="1" Stretch="Uniform">
+                        <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesTenBox" Text="{Binding Path=Timer.MinuteTens, FallbackValue=1}" MouseDown="minutesTenBox_MouseDown"/>
                     </Viewbox>
+                    <Viewbox Grid.Column="2" Stretch="Uniform">
+                        <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="minutesSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.MinuteSingle, FallbackValue=2}" MouseDown="minutesSingleBox_MouseDown"/>
+                    </Viewbox>
+                    <Grid Grid.Column="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=".2*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height=".2*"/>
+                        </Grid.RowDefinitions>
+                        <Viewbox Grid.Row="1">
+                            <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" HorizontalAlignment="Center" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}">:</TextBlock>
+                        </Viewbox>
+                    </Grid>
+                    <Viewbox Grid.Column="4">
+                        <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsTenBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.SecondsTens, FallbackValue=3}" MouseDown="secondsTenBox_MouseDown"/>
+                    </Viewbox>
+                    <Viewbox Grid.Column="5">
+                        <TextBlock FontWeight="Bold"  Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.SecondsSingle, FallbackValue=4}" MouseDown="secondsSingleBox_MouseDown"/>
+                    </Viewbox>
+
                 </Grid>
-                <Viewbox Grid.Column="4">
-                    <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsTenBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.SecondsTens, FallbackValue=3}" MouseDown="secondsTenBox_MouseDown"/>
-                </Viewbox>
-                <Viewbox Grid.Column="5">
-                    <TextBlock FontWeight="Bold"  Foreground="{StaticResource ProwarenessOrange}" x:Name="secondsSingleBox" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}" Text="{Binding Path=Timer.SecondsSingle, FallbackValue=4}" MouseDown="secondsSingleBox_MouseDown"/>
-                </Viewbox>
+            </Border>
+            <Grid Grid.Row="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Style="{StaticResource MainButtonStyle}" Grid.Column="1" x:Name="startStopResetButton" Click="startStopResetButton_Click" MouseLeave="startStopResetButton_MouseLeave">
+                    <Image Source="ON-transparent.png" Margin="0,10,0,5"/>
+                </Button>
 
             </Grid>
-        </Border>
-        <Grid Grid.Row="2" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <Button Style="{StaticResource MainButtonStyle}" Grid.Column="1" x:Name="startStopResetButton" Click="startStopResetButton_Click" MouseLeave="startStopResetButton_MouseLeave">
-                <Image Source="ON-transparent.png" Margin="0,10,0,5"/>
-            </Button>
 
         </Grid>
-
-    </Grid>
+    </Border>
 </Window>
