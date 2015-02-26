@@ -27,6 +27,14 @@ namespace ONtimer
             Down
         }
 
+        public bool IsZero
+        {
+            get
+            {
+                return (Minutes <= 0) && (Seconds <= 0);
+            }
+        }
+
         /// <summary>
         /// Gets or sets the mode, indication upward, or downward counting
         /// </summary>
@@ -165,7 +173,6 @@ namespace ONtimer
             }
         }
 
-
         /// <summary>
         /// Starts the timer
         /// </summary>
@@ -228,7 +235,7 @@ namespace ONtimer
 
             if (Mode == TimerModes.Down)
             {
-                if ((Minutes <= 0) && (Seconds <= 0))
+                if (IsZero)
                 {
                     Stop();
                     raiseTimerExpired();

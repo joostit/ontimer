@@ -12,21 +12,9 @@
         WindowStyle="None"
         AllowsTransparency="True"
         ResizeMode="NoResize"
-        Closing="Window_Closing">
+        xmlns:cmd="clr-namespace:ONtimer.Commands"
+        FocusManager.FocusedElement="{Binding RelativeSource={x:Static RelativeSource.Self}, Mode=OneTime}">
     <Window.Resources>
-
-        <Style TargetType="{x:Type Button}" x:Key="doubleClickButton">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Grid Background="{TemplateBinding Property=Background}"
-                              Width="{TemplateBinding Property=Width}"
-                              Height="{TemplateBinding Property=Height}">
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
         <Style x:Key="MainButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="BorderBrush" Value="Orange"/>
@@ -88,17 +76,46 @@
 
     </Window.Resources>
     
+    <Window.CommandBindings>
+        <CommandBinding x:Name="FullscreenCommand" Command="cmd:CustomCommands.ToggleFullscreenCommand" Executed="FullscreenCommand_Executed"/>
+        <CommandBinding x:Name="ExitCommand" Command="cmd:CustomCommands.ExitCommand" Executed="ExitCommand_Executed" />
+        <CommandBinding x:Name="StartAutoCommand" Command="cmd:CustomCommands.StartAutoCommand" CanExecute="StartCommand_CanExecute" Executed="StartAutoCommand_Executed"/>
+        <CommandBinding x:Name="StartUpCommand" Command="cmd:CustomCommands.StartUpCommand" CanExecute="StartCommand_CanExecute" Executed="StartUpCommand_Executed"/>
+        <CommandBinding x:Name="StartDownCommand" Command="cmd:CustomCommands.StartDownCommand" CanExecute="StartDownCommand_CanExecute" Executed="StartDownCommand_Executed"/>
+        <CommandBinding x:Name="StopCommand" Command="cmd:CustomCommands.StopCommand" CanExecute="StopCommand_CanExecute" Executed="StopCommand_Executed"/>
+        <CommandBinding x:Name="ResetCommand" Command="cmd:CustomCommands.ResetCommand" Executed="ResetCommand_Executed"/>
+        <CommandBinding x:Name="ResetToZeroCommand" Command="cmd:CustomCommands.ResetToZeroCommand" Executed="ResetToZeroCommand_Executed" />
+        <CommandBinding x:Name="ExitFullscreenCommand" Command="cmd:CustomCommands.ExitFullscreenCommand" CanExecute="ExitFullscreenCommand_CanExecute" Executed="ExitFullscreenCommand_Executed"/>
+        <CommandBinding x:Name="ToggleStartStopCommand" Command="cmd:CustomCommands.ToggleStartStopCommand" Executed="ToggleStartStopCommand_Executed"/>
+    </Window.CommandBindings>
+    
+    <Window.InputBindings>
+        <KeyBinding Command="cmd:CustomCommands.ToggleFullscreenCommand" Key="F11"/>
+        <KeyBinding Command="cmd:CustomCommands.StartAutoCommand" Key="A"/>
+        <KeyBinding Command="cmd:CustomCommands.StartUpCommand" Key="U"/>
+        <KeyBinding Command="cmd:CustomCommands.StartDownCommand" Key="D"/>
+        <KeyBinding Command="cmd:CustomCommands.StopCommand" Key="S"/>
+        <KeyBinding Command="cmd:CustomCommands.ResetCommand" Key="R"/>
+        <KeyBinding Command="cmd:CustomCommands.ResetToZeroCommand" Key="Z"/>
+        <KeyBinding Command="cmd:CustomCommands.ExitFullscreenCommand" Key="Escape"/>
+        <KeyBinding Command="cmd:CustomCommands.ToggleStartStopCommand" Key="Space"/>
+    </Window.InputBindings>
+    
     <Window.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="Count _Up" Click="MenuItem_CountUp"/>
-            <MenuItem Header="Count _Down" Click="MenuItem_CountDown"/>
-            <MenuItem Header="_Reset to zero" Click="MenuItem_ResetZero"/>
-            <MenuItem Header="_Stop" Click="MenuItem_Stop"/>
+            <MenuItem Command="cmd:CustomCommands.StartAutoCommand" InputGestureText="A"/>
             <Separator />
-            <MenuItem Header="_Windowed/Fullscreen" Click="MenuItem_windowState"/>
-            <MenuItem Header="_Close" Click="MenuItem_Close"/>
+            <MenuItem Command="cmd:CustomCommands.StartUpCommand" InputGestureText="U"/>
+            <MenuItem Command="cmd:CustomCommands.StartDownCommand" InputGestureText="D"/>
+            <MenuItem Command="cmd:CustomCommands.StopCommand" InputGestureText="S"/>
+            <MenuItem Command="cmd:CustomCommands.ResetCommand" InputGestureText="R"/>
+            <MenuItem Command="cmd:CustomCommands.ResetToZeroCommand" InputGestureText="Z"/>
+            <Separator />
+            <MenuItem Command="cmd:CustomCommands.ToggleFullscreenCommand" InputGestureText="F11"/>
+            <MenuItem Command="cmd:CustomCommands.ExitCommand" InputGestureText="Alt+F4"/>
         </ContextMenu>
     </Window.ContextMenu>
+   
     
     <Border BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="1">
         <Grid DataContext="{Binding}">
@@ -107,8 +124,6 @@
                 <RowDefinition Height="5*"/>
                 <RowDefinition Height="2*"  MinHeight="30"/>
             </Grid.RowDefinitions>
-
-            <Button IsTabStop="False" Style="{StaticResource doubleClickButton}" x:Name="resizeControl" Grid.Row="0" Background="Transparent" MouseDoubleClick="resizeControl_MouseDoubleClick"/>
 
             <Border x:Name="ClockBorder" BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="{Binding Path=ClockBorderThickness, Mode=OneWay}"  Grid.Row="1">
                 <Border.Triggers>

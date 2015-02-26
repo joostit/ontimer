@@ -29,6 +29,27 @@ namespace ONtimer
         private DispatcherTimer doubleClickTimer = new DispatcherTimer();
         private int clickCount = 0;
 
+        private bool IsFullscreen
+        {
+            get
+            {
+                return this.WindowState == System.Windows.WindowState.Maximized;
+            }
+            set
+            {
+                if (value == true) // Go fullscreen
+                {
+                    this.WindowStyle = System.Windows.WindowStyle.None;
+                    this.WindowState = System.Windows.WindowState.Maximized;
+                }
+                else
+                {
+                    this.WindowStyle = System.Windows.WindowStyle.None;
+                    this.WindowState = System.Windows.WindowState.Normal;
+                }
+            }
+        }
+
         public SessionTimer Timer
         {
             get
@@ -111,7 +132,7 @@ namespace ONtimer
 
         private void performSingleButtonClick()
         {
-            startStopTimer();
+            autoStartStopTimer();
         }
 
 
@@ -160,7 +181,7 @@ namespace ONtimer
             }
         }
 
-        private void startStopTimer()
+        private void autoStartStopTimer()
         {
             if (timer.IsRunning)
             {
@@ -168,16 +189,22 @@ namespace ONtimer
             }
             else
             {
-                if ((timer.Minutes == 0) && (timer.Seconds == 0))
-                {
-                    timer.Mode = SessionTimer.TimerModes.Up;
-                }
-                else
-                {
-                    timer.Mode = SessionTimer.TimerModes.Down;
-                }
-                timer.Start();
+                autoStartTimer();
             }
+        }
+
+
+        private void autoStartTimer()
+        {
+            if (timer.IsZero)
+            {
+                timer.Mode = SessionTimer.TimerModes.Up;
+            }
+            else
+            {
+                timer.Mode = SessionTimer.TimerModes.Down;
+            }
+            timer.Start();
         }
 
 
@@ -249,25 +276,9 @@ namespace ONtimer
             }
         }
 
-
         private void toggleWindowState()
         {
-            if (this.WindowState != System.Windows.WindowState.Maximized) // Go fullscreen
-            {
-                this.WindowStyle = System.Windows.WindowStyle.None;
-                this.WindowState = System.Windows.WindowState.Maximized;
-            }
-            else // Go windowed
-            {
-                this.WindowStyle = System.Windows.WindowStyle.None;
-                this.WindowState = System.Windows.WindowState.Normal;
-            }
-        }
-
-        private void resizeControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            toggleWindowState();
-            e.Handled = true;
+            IsFullscreen = !IsFullscreen;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -288,53 +299,86 @@ namespace ONtimer
             this.ResizeMode = System.Windows.ResizeMode.NoResize;
         }
 
-        private void MenuItem_CountDown(object sender, RoutedEventArgs e)
+
+        private void clockBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            timer.Mode = SessionTimer.TimerModes.Down;
-            timer.Start();
+            e.Handled = true; //need to suppress contextmenu from opening
         }
 
-        private void MenuItem_CountUp(object sender, RoutedEventArgs e)
+
+        private void FullscreenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            toggleWindowState();
+        }
+
+        private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void StartCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !timer.IsRunning;
+        }
+
+        private void StartAutoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            autoStartTimer();
+        }
+
+        private void StartUpCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             timer.Mode = SessionTimer.TimerModes.Up;
             timer.Start();
         }
 
-        private void MenuItem_Stop(object sender, RoutedEventArgs e)
+        private void StartDownCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            timer.Mode = SessionTimer.TimerModes.Down;
+            timer.Start();
+        }
+
+        private void StopCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = timer.IsRunning;
+        }
+
+        private void StopCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             timer.Stop();
         }
 
-
-        private void MenuItem_ResetZero(object sender, RoutedEventArgs e)
+        private void StartDownCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (timer.IsRunning)
-            {
-                timer.Stop();
-            }
+            e.CanExecute = !timer.IsRunning && !timer.IsZero;
+        }
 
+        private void ResetCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            timer.ResetToInitialValue();
+        }
+
+        private void ResetToZeroCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
             timer.ResetToZero();
         }
 
-        private void MenuItem_windowState(object sender, RoutedEventArgs e)
+        private void ExitFullscreenCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            toggleWindowState();
+            e.CanExecute = this.IsFullscreen;
         }
 
-        private void MenuItem_Close(object sender, RoutedEventArgs e)
+        private void ExitFullscreenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            this.Close();
+            IsFullscreen = false;
         }
 
-        private void clockBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        private void ToggleStartStopCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            e.Handled = true; //need to suppress empty menu
+            autoStartStopTimer();
         }
 
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
 
-        }
 
     }
 }

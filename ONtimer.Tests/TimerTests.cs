@@ -61,5 +61,25 @@ namespace ONtimer.Tests
             Assert.AreEqual(11, timer.Seconds);
             Assert.AreEqual(23, timer.Minutes);
         }
+
+
+        [TestMethod]
+        public void TestIsZeroFuntion()
+        {
+            SessionTimer timer = new SessionTimer();
+            Assert.AreEqual(true, timer.IsZero);
+
+            timer.Minutes = 3;
+            timer.Seconds = 0;
+            Assert.AreEqual(false, timer.IsZero);
+
+            timer.Minutes = 0;
+            timer.Seconds = 2;
+            Assert.AreEqual(false, timer.IsZero);
+
+            timer.Minutes = 4;
+            timer.Seconds = 5;
+            Assert.AreEqual(false, timer.IsZero);
+        }
     }
 }
