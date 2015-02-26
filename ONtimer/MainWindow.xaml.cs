@@ -25,12 +25,12 @@ namespace ONtimer
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private SessionTimer timer = new SessionTimer();
-
         private DispatcherTimer doubleClickTimer = new DispatcherTimer();
         private int clickCount = 0;
         private TimeSpan mouseCursorTimeout = new  TimeSpan(0, 0, 5);
-
         private DispatcherTimer mouseHideTimer = new DispatcherTimer();
+        private double clockBorderThickness = 5;
+
 
         private bool IsFullscreen
         {
@@ -65,7 +65,6 @@ namespace ONtimer
             }
         }
 
-        private double clockBorderThickness = 5;
 
         /// <summary>
         /// Gets the orange border thickness
@@ -79,8 +78,6 @@ namespace ONtimer
                 raisePropertyChanged("ClockBorderThickness");
             }
         }
-
-
 
         public MainWindow()
         {
@@ -99,7 +96,6 @@ namespace ONtimer
         {
             ExecutionStateUtils.NotifyScreenInUse();
         }
-
 
         void timer_TimerExpired(object sender, EventArgs e)
         {
@@ -138,12 +134,10 @@ namespace ONtimer
             clickCount = 0;
         }
 
-
         private void performSingleButtonClick()
         {
             autoStartStopTimer();
         }
-
 
         private void performDoubleButtonClick()
         {
@@ -164,7 +158,6 @@ namespace ONtimer
 
             timer.ResetToZero();
         }
-
 
         private void startStopResetButton_Click(object sender, RoutedEventArgs e)
         {
@@ -215,7 +208,6 @@ namespace ONtimer
             }
             timer.Start();
         }
-
 
         private void startStopResetButton_MouseLeave(object sender, MouseEventArgs e)
         {
@@ -307,7 +299,6 @@ namespace ONtimer
         {
             this.ResizeMode = System.Windows.ResizeMode.NoResize;
         }
-
 
         private void clockBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
@@ -407,7 +398,6 @@ namespace ONtimer
             mouseHideTimer.Stop();
             Mouse.OverrideCursor = Cursors.None;
         }
-
 
     }
 }

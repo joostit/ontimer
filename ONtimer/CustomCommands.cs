@@ -17,7 +17,6 @@ namespace ONtimer.Commands
         public static readonly RoutedUICommand StopCommand = new RoutedUICommand("Stop", "Stop", typeof(MainWindow));
         public static readonly RoutedUICommand ResetCommand = new RoutedUICommand("Reset", "reset", typeof(MainWindow));
         public static readonly RoutedUICommand ResetToZeroCommand = new RoutedUICommand("Reset to zero", "resetToZero", typeof(MainWindow));
-
         public static readonly RoutedUICommand ExitFullscreenCommand = new RoutedUICommand("Exit fullscreen", "exitFullscreen", typeof(MainWindow));
         public static readonly RoutedUICommand ToggleStartStopCommand = new RoutedUICommand("Toggle Start/Stop", "toggleStartStop", typeof(MainWindow));
     }

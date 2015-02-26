@@ -27,6 +27,9 @@ namespace ONtimer
             Down
         }
 
+        /// <summary>
+        /// Gets of the timer value is zero. This property is not covered by INotifyPropertyChanged
+        /// </summary>
         public bool IsZero
         {
             get
@@ -36,12 +39,12 @@ namespace ONtimer
         }
 
         /// <summary>
-        /// Gets or sets the mode, indication upward, or downward counting
+        /// Gets or sets the mode, indication upward, or downward counting. This property is not covered by INotifyPropertyChanged
         /// </summary>
         public TimerModes Mode {get;set;}
 
         /// <summary>
-        /// Returns if the timer is currently running
+        /// Returns if the timer is currently running. This property is not covered by INotifyPropertyChanged
         /// </summary>
         public bool IsRunning
         {
@@ -129,13 +132,21 @@ namespace ONtimer
         }
 
         private TimeSpan value;
-
         private DispatcherTimer timer;
-
+        
+        /// <summary>
+        /// Gets raised if a property value has changed
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Gets raised if the timer expires
+        /// </summary>
         public event EventHandler TimerExpired;
 
+        /// <summary>
+        /// Gets raised every second when the timer is running
+        /// </summary>
         public event EventHandler OneSecondTick;
 
         /// <summary>
@@ -150,7 +161,6 @@ namespace ONtimer
             timer.Tick += timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 0, 1, 0);
         }
-
 
         private void notifyValuePropertiesChanged()
         {
@@ -209,7 +219,6 @@ namespace ONtimer
             notifyValuePropertiesChanged();
         }
 
-
         void timer_Tick(object sender, EventArgs e)
         {
             switch (Mode)
@@ -225,7 +234,6 @@ namespace ONtimer
             }
 
             validateTimerValue();
-            
             notifyValuePropertiesChanged();
 
             if (OneSecondTick != null)
@@ -241,8 +249,9 @@ namespace ONtimer
                     raiseTimerExpired();
                 }
             }
-        }
 
+            
+        }
 
         private void raiseTimerExpired()
         {
