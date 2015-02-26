@@ -71,17 +71,7 @@ namespace ONtimer
                 notifyValuePropertiesChanged();
             }
         }
-
-        private void notifyValuePropertiesChanged()
-        {
-            NotifyPropertyChanged("Seconds");
-            NotifyPropertyChanged("SecondsTens");
-            NotifyPropertyChanged("SecondsSingle");
-            NotifyPropertyChanged("Minutes");
-            NotifyPropertyChanged("MinuteSingle");
-            NotifyPropertyChanged("MinuteTens");
-        }
-
+        
         /// <summary>
         /// Gets the string representation of the ten-units for the minute value
         /// </summary>
@@ -138,6 +128,8 @@ namespace ONtimer
 
         public event EventHandler TimerExpired;
 
+        public event EventHandler OneSecondTick;
+
         /// <summary>
         /// The value the timer had when it started
         /// </summary>
@@ -149,6 +141,17 @@ namespace ONtimer
             timer = new DispatcherTimer();
             timer.Tick += timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 0, 1, 0);
+        }
+
+
+        private void notifyValuePropertiesChanged()
+        {
+            NotifyPropertyChanged("Seconds");
+            NotifyPropertyChanged("SecondsTens");
+            NotifyPropertyChanged("SecondsSingle");
+            NotifyPropertyChanged("Minutes");
+            NotifyPropertyChanged("MinuteSingle");
+            NotifyPropertyChanged("MinuteTens");
         }
 
         /// <summary>
@@ -215,6 +218,11 @@ namespace ONtimer
             }
             
             notifyValuePropertiesChanged();
+
+            if (OneSecondTick != null)
+            {
+                OneSecondTick(this, new EventArgs());
+            }
 
             if (Mode == TimerModes.Down)
             {

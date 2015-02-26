@@ -60,9 +60,16 @@ namespace ONtimer
             DataContext = this;//.Timer;
             doubleClickTimer = new DispatcherTimer();
             timer.TimerExpired += timer_TimerExpired;
+            timer.OneSecondTick += timer_OneSecondTick;
             doubleClickTimer.Tick += doubleClickTimerTick;
             this.SizeChanged += MainWindow_SizeChanged;
         }
+
+        void timer_OneSecondTick(object sender, EventArgs e)
+        {
+            ExecutionStateUtils.NotifyScreenInUse();
+        }
+
 
         void timer_TimerExpired(object sender, EventArgs e)
         {
@@ -334,6 +341,11 @@ namespace ONtimer
         private void clockBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             e.Handled = true; //need to suppress empty menu
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+
         }
 
         
