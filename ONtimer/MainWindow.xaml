@@ -47,14 +47,14 @@
                     <Trigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard >
-                                <ThicknessAnimation To="0,0,0,0" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.1" />
+                                <ThicknessAnimation To="0,0,0,0" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.05" />
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.EnterActions>
                     <Trigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard >
-                                <ThicknessAnimation To="3,3,3,3" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.1" FillBehavior="Stop"/>
+                                <ThicknessAnimation To="3,3,3,3" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.05" FillBehavior="Stop"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.ExitActions>
@@ -65,14 +65,14 @@
                     <Trigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard >
-                                <ThicknessAnimation To="4,4,4,4" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.05" />
+                                <ThicknessAnimation To="4,4,4,4" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.02" />
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.EnterActions>
                     <Trigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard >
-                                <ThicknessAnimation To="0,0,0,0" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.05" FillBehavior="Stop"/>
+                                <ThicknessAnimation To="0,0,0,0" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.02" FillBehavior="Stop"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.ExitActions>
