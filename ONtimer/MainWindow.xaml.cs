@@ -28,6 +28,9 @@ namespace ONtimer
 
         private DispatcherTimer doubleClickTimer = new DispatcherTimer();
         private int clickCount = 0;
+        private TimeSpan mouseCursorTimeout = new  TimeSpan(0, 0, 5);
+
+        private DispatcherTimer mouseHideTimer = new DispatcherTimer();
 
         private bool IsFullscreen
         {
@@ -41,12 +44,16 @@ namespace ONtimer
                 {
                     this.WindowStyle = System.Windows.WindowStyle.None;
                     this.WindowState = System.Windows.WindowState.Maximized;
+                    mouseHideTimer.Start();
                 }
                 else
                 {
                     this.WindowStyle = System.Windows.WindowStyle.None;
                     this.WindowState = System.Windows.WindowState.Normal;
+                    Mouse.OverrideCursor = null;
+                    mouseHideTimer.Stop();
                 }
+                
             }
         }
 
@@ -84,6 +91,8 @@ namespace ONtimer
             timer.OneSecondTick += timer_OneSecondTick;
             doubleClickTimer.Tick += doubleClickTimerTick;
             this.SizeChanged += MainWindow_SizeChanged;
+            mouseHideTimer.Interval = mouseCursorTimeout;
+            mouseHideTimer.Tick += mouseHideTimer_Tick;
         }
 
         void timer_OneSecondTick(object sender, EventArgs e)
@@ -376,8 +385,28 @@ namespace ONtimer
         private void ToggleStartStopCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             autoStartStopTimer();
+            if (!startStopResetButton.IsFocused)
+            {
+                Storyboard blinkAnimation = (Storyboard)FindResource("buttonPress");
+                blinkAnimation.Begin(startStopResetButton);
+            }
         }
 
+        private void Window_MouseMove(object sender, MouseEventArgs e)
+        {
+            Mouse.OverrideCursor = null;
+            if (IsFullscreen)
+            {
+                mouseHideTimer.Stop();
+                mouseHideTimer.Start();
+            }
+        }
+
+        void mouseHideTimer_Tick(object sender, EventArgs e)
+        {
+            mouseHideTimer.Stop();
+            Mouse.OverrideCursor = Cursors.None;
+        }
 
 
     }

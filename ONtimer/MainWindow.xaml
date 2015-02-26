@@ -13,9 +13,10 @@
         AllowsTransparency="True"
         ResizeMode="NoResize"
         xmlns:cmd="clr-namespace:ONtimer.Commands"
-        FocusManager.FocusedElement="{Binding RelativeSource={x:Static RelativeSource.Self}, Mode=OneTime}">
-    <Window.Resources>
+        FocusManager.FocusedElement="{Binding RelativeSource={x:Static RelativeSource.Self}, Mode=OneTime}"
+        MouseMove="Window_MouseMove">
 
+    <Window.Resources>
         <Style x:Key="MainButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="BorderBrush" Value="Orange"/>
             <Setter Property="Background" Value="Transparent"/>
@@ -70,8 +71,13 @@
         </Style>
 
         <Storyboard x:Key="clockBlink" RepeatBehavior="5x">
-            <ColorAnimation To="#FF7300" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.3" AccelerationRatio="0.9"/>
-            <ColorAnimation BeginTime="0:0:0.3" From="#FF7300"  To="{x:Null}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.1" AccelerationRatio="0.9"/>
+            <ColorAnimation To="#FF7300" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2" AccelerationRatio="0.9"/>
+            <ColorAnimation BeginTime="0:0:0.2" From="#FF7300"  To="{x:Null}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.1" AccelerationRatio="0.9"/>
+        </Storyboard>
+
+        <Storyboard x:Key="buttonPress">
+            <ThicknessAnimation To="6,6,6,6" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.05" FillBehavior="Stop"/>
+            <ThicknessAnimation To="3,3,3,3" Storyboard.TargetProperty="Margin" BeginTime="00:00:00.05" Duration="0:0:0.05" FillBehavior="Stop"/>
         </Storyboard>
 
     </Window.Resources>
@@ -126,9 +132,6 @@
             </Grid.RowDefinitions>
 
             <Border x:Name="ClockBorder" BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="{Binding Path=ClockBorderThickness, Mode=OneWay}"  Grid.Row="1">
-                <Border.Triggers>
-
-                </Border.Triggers>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
