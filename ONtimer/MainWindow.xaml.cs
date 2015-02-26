@@ -191,66 +191,54 @@ namespace ONtimer
 
         private void minutesTenBox_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!timer.IsRunning)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                if (e.LeftButton == MouseButtonState.Pressed)
-                {
-                    timer.Minutes += 10;
-                }
-                if (e.RightButton == MouseButtonState.Pressed)
-                {
-                    timer.Minutes -= 10;
-                }
-                e.Handled = true;
+                timer.Minutes += 10;
             }
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                timer.Minutes -= 10;
+            }
+            e.Handled = true;
         }
 
         private void minutesSingleBox_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!timer.IsRunning)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                if (e.LeftButton == MouseButtonState.Pressed)
-                {
-                    timer.Minutes += 1;
-                }
-                if (e.RightButton == MouseButtonState.Pressed)
-                {
-                    timer.Minutes -= 1;
-                }
-                e.Handled = true;
+                timer.Minutes += 1;
             }
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                timer.Minutes -= 1;
+            }
+            e.Handled = true;
         }
 
         private void secondsTenBox_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!timer.IsRunning)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                if (e.LeftButton == MouseButtonState.Pressed)
-                {
-                    timer.Seconds += 10;
-                }
-                if (e.RightButton == MouseButtonState.Pressed)
-                {
-                    timer.Seconds -= 10;
-                }
-                e.Handled = true;
+                timer.Seconds += 10;
             }
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                timer.Seconds -= 10;
+            }
+            e.Handled = true;
         }
 
         private void secondsSingleBox_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!timer.IsRunning)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                if (e.LeftButton == MouseButtonState.Pressed)
-                {
-                    timer.Seconds += 1;
-                }
-                if (e.RightButton == MouseButtonState.Pressed)
-                {
-                    timer.Seconds -= 1;
-                }
-                e.Handled = true;
+                timer.Seconds += 1;
             }
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                timer.Seconds -= 1;
+            }
+            e.Handled = true;
         }
 
         private void raisePropertyChanged(string propertyName)
@@ -316,7 +304,7 @@ namespace ONtimer
         {
             timer.Stop();
         }
-        
+
 
         private void MenuItem_ResetZero(object sender, RoutedEventArgs e)
         {
@@ -348,6 +336,5 @@ namespace ONtimer
 
         }
 
-        
     }
 }

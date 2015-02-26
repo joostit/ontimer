@@ -216,6 +216,8 @@ namespace ONtimer
                 default:
                     throw new Exception("Unknown TimerMode: " + Mode.ToString());
             }
+
+            validateTimerValue();
             
             notifyValuePropertiesChanged();
 
@@ -226,7 +228,7 @@ namespace ONtimer
 
             if (Mode == TimerModes.Down)
             {
-                if ((Minutes == 0) && (Seconds == 0))
+                if ((Minutes <= 0) && (Seconds <= 0))
                 {
                     Stop();
                     raiseTimerExpired();
