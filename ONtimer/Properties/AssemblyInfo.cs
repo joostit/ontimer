@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Prowareness")]
 [assembly: AssemblyProduct("ONTimer")]
-[assembly: AssemblyCopyright("Copyright © Prowareness  2015")]
+[assembly: AssemblyCopyright("Copyright © Prowareness 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
