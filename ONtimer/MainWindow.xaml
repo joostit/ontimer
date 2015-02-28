@@ -5,7 +5,7 @@
         Title="ON! timer" Height="295" Width="435"
         MinHeight="150"
         MinWidth="200"
-        Icon="ON 16x16.png"
+        Icon="ON.ico"
         MouseDown="Window_MouseDown"
         MouseEnter="Window_MouseEnter"
         MouseLeave="Window_MouseLeave"

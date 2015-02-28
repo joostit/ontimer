@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ItsONwatch")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("ONTimer")]
+[assembly: AssemblyDescription("Prowareness Timer and Stopwatch")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ItsONwatch")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCompany("Prowareness")]
+[assembly: AssemblyProduct("ONTimer")]
+[assembly: AssemblyCopyright("Copyright © Prowareness  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
