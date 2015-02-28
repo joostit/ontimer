@@ -60,10 +60,10 @@ namespace ONtimer
         /// </summary>
         public int Seconds
         {
-            get { return value.Seconds; }
+            get { return timeValue.Seconds; }
             set
             {
-                this.value = new TimeSpan(0, this.value.Minutes, value);
+                this.timeValue = new TimeSpan(0, this.timeValue.Minutes, value);
                 validateTimerValue();
                 notifyValuePropertiesChanged();
             }
@@ -74,10 +74,10 @@ namespace ONtimer
         /// </summary>
         public int Minutes
         {
-            get { return value.Minutes; }
+            get { return timeValue.Minutes; }
             set
             {
-                this.value = new TimeSpan(0, value, this.value.Seconds);
+                this.timeValue = new TimeSpan(0, value, this.timeValue.Seconds);
                 validateTimerValue();
                 notifyValuePropertiesChanged();
             }
@@ -131,7 +131,9 @@ namespace ONtimer
             }
         }
 
-        private TimeSpan value;
+        private TimeSpan timeValue;
+        private int startTicks;
+
         private DispatcherTimer timer;
         
         /// <summary>
@@ -150,13 +152,18 @@ namespace ONtimer
         public event EventHandler OneSecondTick;
 
         /// <summary>
+        /// Gets raised when the timer is started
+        /// </summary>
+        public event EventHandler TimerStarted;
+
+        /// <summary>
         /// The value the timer had when it started
         /// </summary>
         private TimeSpan startValue = new TimeSpan();
 
         public SessionTimer()
         {
-            value = new TimeSpan(0, 00, 00);
+            timeValue = new TimeSpan(0, 00, 00);
             timer = new DispatcherTimer();
             timer.Tick += timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 0, 1, 0);
@@ -177,9 +184,9 @@ namespace ONtimer
         /// </summary>
         private void validateTimerValue()
         {
-            if (value.TotalSeconds < 0)
+            if (timeValue.TotalSeconds < 0)
             {
-                value = new TimeSpan(0, 0, 0);
+                timeValue = new TimeSpan(0, 0, 0);
             }
         }
 
@@ -188,8 +195,13 @@ namespace ONtimer
         /// </summary>
         public void Start()
         {
-            startValue = value;
+            startTicks = Environment.TickCount;
+            startValue = timeValue;
             timer.Start();
+            if (TimerStarted != null)
+            {
+                TimerStarted(this, new EventArgs());
+            }
         }
 
         /// <summary>
@@ -205,7 +217,7 @@ namespace ONtimer
         /// </summary>
         public void ResetToInitialValue()
         {
-            value = startValue;
+            timeValue = startValue;
             notifyValuePropertiesChanged();
         }
 
@@ -215,19 +227,22 @@ namespace ONtimer
         public void ResetToZero()
         {
             startValue = new TimeSpan();
-            value = new TimeSpan();
+            timeValue = new TimeSpan();
             notifyValuePropertiesChanged();
         }
 
         void timer_Tick(object sender, EventArgs e)
         {
+            // Use system ticks for this calculation because the DispatcherTImer is inaccurate
+            TimeSpan elapsed = TimeSpan.FromMilliseconds(Environment.TickCount - startTicks);
+
             switch (Mode)
             {
                 case TimerModes.Up:
-                    value += new TimeSpan(0, 0, 1);
+                    timeValue = elapsed;
                     break;
                 case TimerModes.Down:
-                    value -= new TimeSpan(0, 0, 1);
+                    timeValue = startValue - elapsed;
                     break;
                 default:
                     throw new Exception("Unknown TimerMode: " + Mode.ToString());
