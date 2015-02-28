@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Media;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -107,8 +110,18 @@ namespace ONtimer
 
         void timer_TimerExpired(object sender, EventArgs e)
         {
-            Storyboard blinkAnimation = (Storyboard)FindResource("clockBlink");
-            blinkAnimation.Begin(this);
+            if (Properties.Settings.Default.ExpirationBlinkingEnabled)
+            {
+                Storyboard blinkAnimation = (Storyboard)FindResource("clockBlink");
+                blinkAnimation.Begin(this);
+            }
+
+            if (Properties.Settings.Default.ExpirationAudioEnabled)
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                SoundPlayer sp = new SoundPlayer(assembly.GetManifestResourceStream("ONtimer.teaspoon.wav"));
+                sp.Play();
+            }
         }
 
         void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -406,7 +419,6 @@ namespace ONtimer
             Mouse.OverrideCursor = Cursors.None;
         }
 
-
         private void Window_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (e.Text.Length == 1)
@@ -490,5 +502,12 @@ namespace ONtimer
             blinkAnimation.Begin(colonsBox); 
         }
 
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            Properties.Settings.Default.Save();
+        }
+
+
     }
 }
+    

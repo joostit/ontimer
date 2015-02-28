@@ -22,5 +22,29 @@ namespace ONtimer.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ExpirationAudioEnabled {
+            get {
+                return ((bool)(this["ExpirationAudioEnabled"]));
+            }
+            set {
+                this["ExpirationAudioEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ExpirationBlinkingEnabled {
+            get {
+                return ((bool)(this["ExpirationBlinkingEnabled"]));
+            }
+            set {
+                this["ExpirationBlinkingEnabled"] = value;
+            }
+        }
     }
 }
