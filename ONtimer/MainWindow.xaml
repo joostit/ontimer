@@ -134,12 +134,12 @@
             <MenuItem Command="cmd:CustomCommands.ResetCommand" InputGestureText="R"/>
             <MenuItem Command="cmd:CustomCommands.ResetToZeroCommand" InputGestureText="Z"/>
             <Separator />
+            <MenuItem Command="cmd:CustomCommands.ToggleFullscreenCommand" InputGestureText="F11"/>
             <MenuItem Header="_Notification settings">
                 <MenuItem Header="_Play sound" IsCheckable="True" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ExpirationAudioEnabled}"/>
                 <MenuItem Header="_Blink screen" IsCheckable="True" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ExpirationBlinkingEnabled}"/>
             </MenuItem>
             <Separator/>
-            <MenuItem Command="cmd:CustomCommands.ToggleFullscreenCommand" InputGestureText="F11"/>
             <MenuItem Command="cmd:CustomCommands.ExitCommand" InputGestureText="Alt+F4"/>
         </ContextMenu>
     </Window.ContextMenu>

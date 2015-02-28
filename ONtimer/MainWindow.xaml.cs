@@ -31,7 +31,7 @@ namespace ONtimer
         private SessionTimer timer = new SessionTimer();
         private DispatcherTimer doubleClickTimer = new DispatcherTimer();
         private int clickCount = 0;
-        private TimeSpan mouseCursorTimeout = new  TimeSpan(0, 0, 5);
+        private TimeSpan mouseCursorTimeout = new  TimeSpan(0, 0, 3);
         private DispatcherTimer mouseHideTimer = new DispatcherTimer();
         private double clockBorderThickness = 5;
 
@@ -73,7 +73,6 @@ namespace ONtimer
             }
         }
 
-
         /// <summary>
         /// Gets the orange border thickness
         /// </summary>
@@ -102,7 +101,6 @@ namespace ONtimer
             mouseHideTimer.Tick += mouseHideTimer_Tick;
         }
 
-       
         void timer_OneSecondTick(object sender, EventArgs e)
         {
             ExecutionStateUtils.NotifyScreenInUse();
