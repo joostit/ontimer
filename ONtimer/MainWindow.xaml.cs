@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ONtimer.Commands;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -31,6 +32,10 @@ namespace ONtimer
         private DispatcherTimer mouseHideTimer = new DispatcherTimer();
         private double clockBorderThickness = 5;
 
+        /// <summary>
+        /// Holds the digit index of manual numeric input. Is -1 when nu input is active
+        /// </summary>
+        private int manualInputDigitIndex = -1;
 
         private bool IsFullscreen
         {
@@ -82,15 +87,17 @@ namespace ONtimer
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = this;//.Timer;
+            DataContext = this;;
             doubleClickTimer = new DispatcherTimer();
             timer.TimerExpired += timer_TimerExpired;
             timer.OneSecondTick += timer_OneSecondTick;
+            timer.TimerStarted += timer_TimerStarted;
             doubleClickTimer.Tick += doubleClickTimerTick;
             this.SizeChanged += MainWindow_SizeChanged;
             mouseHideTimer.Interval = mouseCursorTimeout;
             mouseHideTimer.Tick += mouseHideTimer_Tick;
         }
+
 
         void timer_OneSecondTick(object sender, EventArgs e)
         {
@@ -141,22 +148,12 @@ namespace ONtimer
 
         private void performDoubleButtonClick()
         {
-            if (timer.IsRunning)
-            {
-                timer.Stop();
-            }
-
-            timer.ResetToInitialValue();
+            CustomCommands.ResetCommand.Execute(null, this);
         }
 
         private void performTripleButtonClick()
         {
-            if (timer.IsRunning)
-            {
-                timer.Stop();
-            }
-
-            timer.ResetToZero();
+            CustomCommands.ResetToZeroCommand.Execute(null, this);
         }
 
         private void startStopResetButton_Click(object sender, RoutedEventArgs e)
@@ -302,7 +299,7 @@ namespace ONtimer
 
         private void clockBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            e.Handled = true; //need to suppress contextmenu from opening
+            e.Handled = true; //need to suppress contextmenu from opening when right-clicking on digits
         }
 
 
@@ -356,11 +353,13 @@ namespace ONtimer
         private void ResetCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             timer.ResetToInitialValue();
+            resetNumericInput();
         }
 
         private void ResetToZeroCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             timer.ResetToZero();
+            resetNumericInput();
         }
 
         private void ExitFullscreenCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -397,6 +396,56 @@ namespace ONtimer
         {
             mouseHideTimer.Stop();
             Mouse.OverrideCursor = Cursors.None;
+        }
+
+
+        private void Window_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (e.Text.Length == 1)
+            {
+                char input = e.Text[0];
+                if (char.IsNumber(input))
+                {
+                    processManualDigitInput(input.ToString());
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void processManualDigitInput(string digit)
+        {
+            if (timer.IsRunning) return;
+            int inputValue = Convert.ToInt32(digit);
+
+            // When the first digit is pressed, reset the timer value and start at the first digit (highest index)
+            if (manualInputDigitIndex < 0)
+            {
+                timer.ResetToZero();
+                manualInputDigitIndex = 3;
+            }
+
+            // The seconds
+            if ((manualInputDigitIndex <= 1) && (manualInputDigitIndex >= 0))
+            {
+                timer.Seconds = timer.Seconds + (inputValue * (int)Math.Pow(10, manualInputDigitIndex));
+            }
+
+            // The minutes
+            if ((manualInputDigitIndex > 1) && (manualInputDigitIndex <= 3))
+            {
+                timer.Minutes = timer.Minutes + (inputValue * (int)Math.Pow(10, manualInputDigitIndex - 2));
+            }
+            manualInputDigitIndex--;
+        }
+
+        private void resetNumericInput()
+        {
+            manualInputDigitIndex = -1;
+        }
+
+        void timer_TimerStarted(object sender, EventArgs e)
+        {
+            resetNumericInput();
         }
 
     }

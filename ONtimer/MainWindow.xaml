@@ -14,7 +14,8 @@
         ResizeMode="NoResize"
         xmlns:cmd="clr-namespace:ONtimer.Commands"
         FocusManager.FocusedElement="{Binding RelativeSource={x:Static RelativeSource.Self}, Mode=OneTime}"
-        MouseMove="Window_MouseMove">
+        MouseMove="Window_MouseMove"
+        PreviewTextInput="Window_PreviewTextInput">
 
     <Window.Resources>
         <Style x:Key="MainButtonStyle" TargetType="{x:Type Button}">
@@ -98,6 +99,7 @@
     <Window.InputBindings>
         <KeyBinding Command="cmd:CustomCommands.ToggleFullscreenCommand" Key="F11"/>
         <KeyBinding Command="cmd:CustomCommands.StartAutoCommand" Key="A"/>
+        <KeyBinding Command="cmd:CustomCommands.StartAutoCommand" Key="Enter"/>
         <KeyBinding Command="cmd:CustomCommands.StartUpCommand" Key="U"/>
         <KeyBinding Command="cmd:CustomCommands.StartDownCommand" Key="D"/>
         <KeyBinding Command="cmd:CustomCommands.StopCommand" Key="S"/>

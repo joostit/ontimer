@@ -218,6 +218,12 @@ namespace ONtimer
         public void ResetToInitialValue()
         {
             timeValue = startValue;
+            startTicks = Environment.TickCount;
+            if (timer.IsEnabled)
+            {
+                timer.Stop();
+                timer.Start();
+            }
             notifyValuePropertiesChanged();
         }
 
@@ -227,8 +233,7 @@ namespace ONtimer
         public void ResetToZero()
         {
             startValue = new TimeSpan();
-            timeValue = new TimeSpan();
-            notifyValuePropertiesChanged();
+            ResetToInitialValue();
         }
 
         void timer_Tick(object sender, EventArgs e)
@@ -264,8 +269,6 @@ namespace ONtimer
                     raiseTimerExpired();
                 }
             }
-
-            
         }
 
         private void raiseTimerExpired()
