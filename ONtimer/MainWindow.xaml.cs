@@ -448,5 +448,18 @@ namespace ONtimer
             resetNumericInput();
         }
 
+        private void Window_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource == minutesSingleBox) return;
+            if (e.OriginalSource == minutesTenBox) return;
+            if (e.OriginalSource == secondsSingleBox ) return;
+            if (e.OriginalSource == secondsTenBox) return;
+            if (e.OriginalSource == startStopResetButton) return;
+            if (e.OriginalSource == ONButtonImage) return;
+
+            CustomCommands.ToggleFullscreenCommand.Execute(null, this);
+
+        }
+
     }
 }

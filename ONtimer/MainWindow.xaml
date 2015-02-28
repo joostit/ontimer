@@ -15,7 +15,8 @@
         xmlns:cmd="clr-namespace:ONtimer.Commands"
         FocusManager.FocusedElement="{Binding RelativeSource={x:Static RelativeSource.Self}, Mode=OneTime}"
         MouseMove="Window_MouseMove"
-        PreviewTextInput="Window_PreviewTextInput">
+        PreviewTextInput="Window_PreviewTextInput"
+        PreviewMouseDoubleClick="Window_PreviewMouseDoubleClick">
 
     <Window.Resources>
         <Style x:Key="MainButtonStyle" TargetType="{x:Type Button}">
@@ -177,7 +178,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button IsTabStop="False" Style="{StaticResource MainButtonStyle}" Grid.Column="1" x:Name="startStopResetButton" Click="startStopResetButton_Click" MouseLeave="startStopResetButton_MouseLeave">
-                    <Image Source="ON-transparent.png" Margin="0,10,0,5"/>
+                    <Image x:Name="ONButtonImage" Source="ON-transparent.png" Margin="0,10,0,5"/>
                 </Button>
 
             </Grid>
