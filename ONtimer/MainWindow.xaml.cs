@@ -92,13 +92,14 @@ namespace ONtimer
             timer.TimerExpired += timer_TimerExpired;
             timer.OneSecondTick += timer_OneSecondTick;
             timer.TimerStarted += timer_TimerStarted;
+            timer.TimerStopped += timer_TimerStopped;
             doubleClickTimer.Tick += doubleClickTimerTick;
             this.SizeChanged += MainWindow_SizeChanged;
             mouseHideTimer.Interval = mouseCursorTimeout;
             mouseHideTimer.Tick += mouseHideTimer_Tick;
         }
 
-
+       
         void timer_OneSecondTick(object sender, EventArgs e)
         {
             ExecutionStateUtils.NotifyScreenInUse();
@@ -446,6 +447,18 @@ namespace ONtimer
         void timer_TimerStarted(object sender, EventArgs e)
         {
             resetNumericInput();
+            Storyboard blinkAnimation = (Storyboard)FindResource("timerStartAnimation");
+            blinkAnimation.Begin(ClockBorder);
+        }
+
+        void timer_TimerStopped(object sender, EventArgs e)
+        {
+            // Only blink if we're not expired. There's another animation form that
+            if (!timer.IsZero)
+            {
+                Storyboard blinkAnimation = (Storyboard)FindResource("timerStopAnimation");
+                blinkAnimation.Begin(ClockBorder);
+            }
         }
 
         private void Window_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -458,7 +471,6 @@ namespace ONtimer
             if (e.OriginalSource == ONButtonImage) return;
 
             CustomCommands.ToggleFullscreenCommand.Execute(null, this);
-
         }
 
     }

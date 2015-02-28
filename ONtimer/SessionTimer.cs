@@ -157,6 +157,11 @@ namespace ONtimer
         public event EventHandler TimerStarted;
 
         /// <summary>
+        /// Gets raised when the timer is started
+        /// </summary>
+        public event EventHandler TimerStopped;
+
+        /// <summary>
         /// The value the timer had when it started
         /// </summary>
         private TimeSpan startValue = new TimeSpan();
@@ -210,6 +215,10 @@ namespace ONtimer
         public void Stop()
         {
             timer.Stop();
+            if (TimerStopped != null)
+            {
+                TimerStopped(this, new EventArgs());
+            }
         }
 
         /// <summary>

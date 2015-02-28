@@ -77,6 +77,14 @@
             <ColorAnimation BeginTime="0:0:0.2" From="#FF7300"  To="{x:Null}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.1" AccelerationRatio="0.9"/>
         </Storyboard>
 
+        <Storyboard x:Key="timerStartAnimation">
+            <ColorAnimation From="Lime"  To="{x:Null}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2" AccelerationRatio="0.9"/>
+        </Storyboard>
+
+        <Storyboard x:Key="timerStopAnimation">
+            <ColorAnimation From="OrangeRed"  To="{x:Null}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2" AccelerationRatio="0.9"/>
+        </Storyboard>
+
         <Storyboard x:Key="buttonPress">
             <ThicknessAnimation To="6,6,6,6" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.05" FillBehavior="Stop"/>
             <ThicknessAnimation To="3,3,3,3" Storyboard.TargetProperty="Margin" BeginTime="00:00:00.05" Duration="0:0:0.05" FillBehavior="Stop"/>
@@ -134,7 +142,7 @@
                 <RowDefinition Height="2*"  MinHeight="30"/>
             </Grid.RowDefinitions>
 
-            <Border x:Name="ClockBorder" BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="{Binding Path=ClockBorderThickness, Mode=OneWay}"  Grid.Row="1">
+            <Border x:Name="ClockBorder" Background="Transparent" BorderBrush="{StaticResource ProwarenessOrange}" BorderThickness="{Binding Path=ClockBorderThickness, Mode=OneWay}"  Grid.Row="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
