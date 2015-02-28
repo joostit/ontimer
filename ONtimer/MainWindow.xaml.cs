@@ -79,7 +79,7 @@ namespace ONtimer
             get { return clockBorderThickness; }
             set
             {
-                clockBorderThickness = value;
+                clockBorderThickness = value > 2 ? value : 2;
                 raisePropertyChanged("ClockBorderThickness");
             }
         }
@@ -114,7 +114,8 @@ namespace ONtimer
         void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             double lowest = this.ActualHeight < this.ActualWidth ? this.ActualHeight : this.ActualWidth;
-            ClockBorderThickness = lowest / 25;
+            double calculated = lowest / 25;
+            ClockBorderThickness = calculated > 2 ? calculated : 2;
         }
 
         private void doubleClickTimerTick(object sender, EventArgs e)
@@ -225,6 +226,7 @@ namespace ONtimer
             {
                 timer.Minutes -= 10;
             }
+            resetNumericInput();
             e.Handled = true;
         }
 
@@ -238,6 +240,7 @@ namespace ONtimer
             {
                 timer.Minutes -= 1;
             }
+            resetNumericInput();
             e.Handled = true;
         }
 
@@ -251,6 +254,7 @@ namespace ONtimer
             {
                 timer.Seconds -= 10;
             }
+            resetNumericInput();
             e.Handled = true;
         }
 
@@ -264,6 +268,7 @@ namespace ONtimer
             {
                 timer.Seconds -= 1;
             }
+            resetNumericInput();
             e.Handled = true;
         }
 
@@ -353,12 +358,14 @@ namespace ONtimer
 
         private void ResetCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            performResetBlink();
             timer.ResetToInitialValue();
             resetNumericInput();
         }
 
         private void ResetToZeroCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            performResetBlink();
             timer.ResetToZero();
             resetNumericInput();
         }
@@ -471,6 +478,16 @@ namespace ONtimer
             if (e.OriginalSource == ONButtonImage) return;
 
             CustomCommands.ToggleFullscreenCommand.Execute(null, this);
+        }
+
+        private void performResetBlink()
+        {
+            Storyboard blinkAnimation = (Storyboard)FindResource("resetBlinkAnimation");
+            blinkAnimation.Begin(secondsSingleBox);
+            blinkAnimation.Begin(secondsTenBox);
+            blinkAnimation.Begin(minutesSingleBox);
+            blinkAnimation.Begin(minutesTenBox);
+            blinkAnimation.Begin(colonsBox); 
         }
 
     }

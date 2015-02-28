@@ -78,11 +78,15 @@
         </Storyboard>
 
         <Storyboard x:Key="timerStartAnimation">
-            <ColorAnimation From="Lime"  To="{x:Null}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2" AccelerationRatio="0.9"/>
+            <ColorAnimation From="Lime"  To="{x:Null}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2" />
         </Storyboard>
 
         <Storyboard x:Key="timerStopAnimation">
-            <ColorAnimation From="OrangeRed"  To="{x:Null}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2" AccelerationRatio="0.9"/>
+            <ColorAnimation From="OrangeRed"  To="{x:Null}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2" />
+        </Storyboard>
+        
+        <Storyboard x:Key="resetBlinkAnimation">
+            <ColorAnimation From="Transparent"  To="{x:Null}" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Duration="0:0:0.1" AccelerationRatio="0.9"/>
         </Storyboard>
 
         <Storyboard x:Key="buttonPress">
@@ -166,7 +170,7 @@
                             <RowDefinition Height=".2*"/>
                         </Grid.RowDefinitions>
                         <Viewbox Grid.Row="1">
-                            <TextBlock FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" HorizontalAlignment="Center" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}">:</TextBlock>
+                            <TextBlock x:Name="colonsBox" FontWeight="Bold" Foreground="{StaticResource ProwarenessOrange}" HorizontalAlignment="Center" FontSize="{Binding ElementName=minutesTenBox, Path=FontSize}">:</TextBlock>
                         </Viewbox>
                     </Grid>
                     <Viewbox Grid.Column="4">
