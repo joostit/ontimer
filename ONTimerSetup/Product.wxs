@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <!--
+  ***********************************************************************************************************
+  
+  Variables are defined in Mainsettings.wxi
+  ***********************************************************************************************************  
+  -->
+
+  <?include $(sys.SOURCEFILEDIR)MainSettings.wxi ?>
+
+  <Product Id="*" Name="$(var.AppTitle)" Language="1033" Version="$(var.AppVersion)" Manufacturer="$(var.ManufacturerName)" UpgradeCode="901913E5-5B91-475A-86DE-89FC9E799F58">
+
+    <!-- Package definition-->
+    <Package Id="*" InstallerVersion="200" Compressed="yes" Keywords='Installer' Description="Application Setup" InstallPrivileges="elevated" InstallScope="perMachine"/>
+
+    <!-- Defines the type of GUI we're using-->
+    <UIRef Id="WixUI_FeatureTree" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION"/>
+
+    <!-- Put everythiong on one big file-->
+    <Media Id="1" Cabinet="MainMedia.cab" EmbedCab="yes" />
+
+    <!-- Sets the installer UELA and bitmap files -->
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.EULADir)\$(var.EULAFileName)" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.SetupResourcesDir)\SetupBanner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.SetupResourcesDir)\SetupSplash.bmp" />
+
+    <!-- Icon and help-path for the 'Remove programs' entry-->
+    <Property Id="ARPPRODUCTICON" Value="ONtimer.exe" />
+    <Property Id="ARPHELPLINK" Value="http://www.prowareness.com/" />
+
+    <!-- Fully uninstall the older version before installing a new one -->
+    <MajorUpgrade AllowDowngrades="no" Schedule="afterInstallValidate" DowngradeErrorMessage="A newer version has already been installed. Please uninstall that one first."/>
+
+    <!-- Icon file -->
+    <Icon Id="ONtimer.exe" SourceFile="$(var.MainBuildOutputDir)\ONtimer.exe" />
+
+    <!-- Check if the '.NET framework 4.0 full' is installed. Abort the installation otherwise -->
+    <PropertyRef Id="NETFRAMEWORK45"/>
+    <Condition Message='This setup requires Microsoft .NET Framework 4.5 package or greater needs to be installed for this installation to continue.'>
+      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    </Condition>
+
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="ManufacturerProgramsDir" Name="$(var.ManufacturerName)">
+          <Directory Id="INSTALLLOCATION" Name="$(var.AppTitle)">
+
+            <Component Id="MainExecutableComponent" Guid="27864720-8EB6-479F-B396-36688E237E10">
+              <RemoveFolder Id='INSTALLLOCATION' On='uninstall' />
+              <RemoveFolder Id='ManufacturerProgramsMenuDirMainExecutableComponent' On='uninstall' Directory='ManufacturerProgramsMenuDir'/>
+              <File Id='ONtimerexe' Name='ONtimer.exe' DiskId='1' Source='$(var.MainBuildOutputDir)\ONtimer.exe' KeyPath='yes'>
+                <Shortcut Id="startmenuOnTimer" Directory="ProgramMenuDir" Name="$(var.AppTitle)"
+                   WorkingDirectory='INSTALLLOCATION' Icon="ONtimer.exe" IconIndex="0" Advertise="yes" />
+                <Shortcut Id="desktopOnterimExe" Directory="DesktopFolder" Name="$(var.AppTitle)"
+                  WorkingDirectory='INSTALLLOCATION' Icon="ONtimer.exe" IconIndex="0" Advertise="yes" />
+              </File>
+         
+            </Component>
+
+            <!-- DLL's and main configuration XML files -->
+            <Component Id='DLLsComponent' Guid='7C56B207-0D2D-4C91-A056-07DFDE1B1664'>
+              <RegistryValue Root='HKLM' Key='Software\[Manufacturer]\[ProductName]\DLLsComponentInstalled' Type='string' Value='' KeyPath='yes' />
+              <File Id='ONtimerexeconfig' Name='ONtimer.exe.config' DiskId='1' Source='$(var.MainBuildOutputDir)\ONtimer.exe.config'/>
+              <!--<File Id='BLibDll' Name='BLib.dll' DiskId='1' Source='$(var.MainBuildOutputDir)\BLib.dll'/>
+              <File Id='CLibDll' Name='CLib.dll' DiskId='1' Source='$(var.MainBuildOutputDir)\CLib.dll'/>-->
+            </Component>
+
+
+          </Directory>
+
+
+        </Directory>
+      </Directory>
+
+
+      <Directory Id="ProgramMenuFolder" Name="Programs">
+        <Directory Id="ManufacturerProgramsMenuDir" Name="$(var.ManufacturerName)">
+          <Directory Id="ProgramMenuDir" Name="$(var.AppTitle)">
+            <Component Id="ProgramMenuDirComponent" Guid="FF4EB6B8-977F-457C-857B-2A5316FD2F0C">
+              <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
+              <RegistryValue Root='HKMU' Key='Software\[Manufacturer]\[ProductName]\StartMenuFolderInstalled' Type='string' Value='' KeyPath='yes' />
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+
+
+      <!-- Dummy component as a workaround for a Windows installer bug.-->
+      <Component Id='DummyComponent' Guid='02F85350-7E04-4421-9932-50AF5589B98D'></Component>
+
+      <Directory Id="DesktopFolder" Name="Desktop" />
+
+    </Directory>
+
+    <!-- Main/Root feature -->
+    <Feature Id="Complete" Title="$(var.AppTitle)" Level="1" Description="$(var.AppTitle) complete" Display="expand" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" InstallDefault='local' Absent='disallow'>
+
+      <!-- Defines the components for the main application feature-->
+      <!--<Feature Id='MainAppFeature' Description='$(var.AppTitle) Application' Level='1' Title='$(var.AppTitle)' AllowAdvertise='yes' InstallDefault='local' Absent='disallow'>-->
+        <ComponentRef Id='MainExecutableComponent' />
+        <ComponentRef Id='DLLsComponent'/>
+        <ComponentRef Id='ProgramMenuDirComponent'/>
+      <!--</Feature>-->
+
+      <!-- To work around the "Run from network"-bug. When it isn't added, the installer will add an option that enables the App to run from network. We don't want that.-->
+      <ComponentRef Id="DummyComponent"/>
+
+    </Feature>
+
+  </Product>
+</Wix>

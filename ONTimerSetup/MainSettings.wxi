@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <!-- The Application title as shown by the shortcuts-->
+  <?define AppTitle = "ON!Timer"?>
+
+  <!-- The Application title as shown by the shortcuts-->
+  <?define ManufacturerName = "Prowareness"?>
+
+  <!-- The Application version. This should be changed every time a new installer is built -->
+  <?define AppVersion = "1.1.1"?>
+
+  <!-- The directory where the application build output can be found -->
+  <?define MainBuildOutputDir = "$(sys.SOURCEFILEDIR)..\ONtimer\bin\$(var.Configuration)" ?>
+
+
+  <!-- The directory where the external setup package files can be found. This is also the location where a SetupDefinitions.wxi file is expected -->
+  <!--<?define SetupPackageLocation = "$(sys.SOURCEFILEDIR)..\..\setup package" ?>-->
+
+  <!-- The Setup builder resources directory (bitmaps, etc...) -->
+  <?define SetupResourcesDir = "$(sys.SOURCEFILEDIR)Resources" ?>
+
+  <!-- The application documentation file name -->
+  <?define EULAFileName = "License agreement.rtf" ?>
+
+  <!-- The EULA directory -->
+  <?define EULADir = "$(var.SetupResourcesDir)" ?>
+
+</Include>
