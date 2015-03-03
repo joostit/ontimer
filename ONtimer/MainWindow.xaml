@@ -18,7 +18,8 @@
         MouseMove="Window_MouseMove"
         PreviewTextInput="Window_PreviewTextInput"
         PreviewMouseDoubleClick="Window_PreviewMouseDoubleClick"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        Topmost="{Binding Source={x:Static p:Settings.Default}, Path=AlwaysOnTop}">
 
     <Window.Resources>
         <Style x:Key="MainButtonStyle" TargetType="{x:Type Button}">
@@ -137,6 +138,7 @@
             <MenuItem Command="cmd:CustomCommands.ResetToZeroCommand" InputGestureText="Z"/>
             <Separator />
             <MenuItem Command="cmd:CustomCommands.ToggleFullscreenCommand" InputGestureText="F11"/>
+            <MenuItem Header="Always on _Top" IsCheckable="True" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=AlwaysOnTop}"/>
             <MenuItem Header="_Notification settings">
                 <MenuItem Header="_Play sound" IsCheckable="True" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ExpirationAudioEnabled}"/>
                 <MenuItem Header="_Blink screen" IsCheckable="True" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ExpirationBlinkingEnabled}"/>
