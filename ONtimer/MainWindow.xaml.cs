@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -76,7 +77,15 @@ namespace ONtimer
         /// <summary>
         /// Gets the orange border thickness
         /// </summary>
-        public double ClockBorderThickness
+        public string ClockBorderThickness
+        {
+            get { return "0 " + calculatedBorderThickness.ToString(CultureInfo.InvariantCulture) + " 0 " + calculatedBorderThickness.ToString(CultureInfo.InvariantCulture); }
+        }
+
+        /// <summary>
+        /// Gets the orange border thickness
+        /// </summary>
+        public double calculatedBorderThickness
         {
             get { return clockBorderThickness; }
             set
@@ -89,7 +98,7 @@ namespace ONtimer
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = this;;
+            DataContext = this;
             doubleClickTimer = new DispatcherTimer();
             timer.TimerExpired += timer_TimerExpired;
             timer.OneSecondTick += timer_OneSecondTick;
@@ -126,7 +135,7 @@ namespace ONtimer
         {
             double lowest = this.ActualHeight < this.ActualWidth ? this.ActualHeight : this.ActualWidth;
             double calculated = lowest / 25;
-            ClockBorderThickness = calculated > 2 ? calculated : 2;
+            calculatedBorderThickness = calculated > 2 ? calculated : 2;
         }
 
         private void doubleClickTimerTick(object sender, EventArgs e)
