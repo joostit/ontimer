@@ -63,11 +63,14 @@ namespace ONtimer
             get { return timeValue.Seconds; }
             set
             {
+                TimeSpan old = this.timeValue;
                 this.timeValue = new TimeSpan(0, this.timeValue.Minutes, value);
                 validateTimerValue();
+                AlterStartTicksValue(this.timeValue - old);
                 notifyValuePropertiesChanged();
             }
         }
+
 
         /// <summary>
         /// Gets or sets the amount of minutes
@@ -77,8 +80,10 @@ namespace ONtimer
             get { return timeValue.Minutes; }
             set
             {
+                TimeSpan old = this.timeValue;
                 this.timeValue = new TimeSpan(0, value, this.timeValue.Seconds);
                 validateTimerValue();
+                AlterStartTicksValue(this.timeValue - old);
                 notifyValuePropertiesChanged();
             }
         }
@@ -194,6 +199,18 @@ namespace ONtimer
                 timeValue = new TimeSpan(0, 0, 0);
             }
         }
+
+
+        /// <summary>
+        /// Alters the starting ticks field with the specified mount of time
+        /// </summary>
+        /// <param name="change"></param>
+        private void AlterStartTicksValue(TimeSpan change)
+        {
+            int ticksDifference = (int)(change.Ticks / TimeSpan.TicksPerMillisecond);
+            startTicks += ticksDifference;
+        }
+
 
         /// <summary>
         /// Starts the timer
