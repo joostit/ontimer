@@ -22,19 +22,9 @@
         Topmost="{Binding Source={x:Static p:Settings.Default}, Path=AlwaysOnTop}">
 
     <Window.Resources>
-        <Style x:Key="MainButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="BorderBrush" Value="Orange"/>
-            <Setter Property="Background" Value="Transparent"/>
+        <Style x:Key="MainButtonStyle" TargetType="{x:Type Image}">
             <Setter Property="Margin" Value="3,3,3,3"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            
             <Style.Triggers>
 
                 <Trigger Property="IsMouseOver" Value="True">
@@ -52,26 +42,7 @@
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.ExitActions>
-                    <Setter Property="Background" Value="Transparent"/>
                 </Trigger>
-
-                <Trigger Property="IsPressed" Value="True">
-                    <Trigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard >
-                                <ThicknessAnimation To="4,4,4,4" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.02" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.EnterActions>
-                    <Trigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard >
-                                <ThicknessAnimation To="0,0,0,0" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.02" FillBehavior="Stop"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.ExitActions>
-                </Trigger>
-
             </Style.Triggers>
         </Style>
 
@@ -93,8 +64,8 @@
         </Storyboard>
 
         <Storyboard x:Key="buttonPress">
-            <ThicknessAnimation To="6,6,6,6" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.05" FillBehavior="Stop"/>
-            <ThicknessAnimation To="3,3,3,3" Storyboard.TargetProperty="Margin" BeginTime="00:00:00.05" Duration="0:0:0.05" FillBehavior="Stop"/>
+            <ThicknessAnimation To="6,6,6,6" Storyboard.TargetProperty="Margin" BeginTime="00:00:00" Duration="0:0:0.03" FillBehavior="Stop"/>
+            <ThicknessAnimation To="3,3,3,3" Storyboard.TargetProperty="Margin" BeginTime="00:00:00.03" Duration="0:0:0.03" FillBehavior="Stop"/>
         </Storyboard>
 
     </Window.Resources>
@@ -127,7 +98,7 @@
     
     <Window.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="ON!Timer v1.1.0    © Prowareness 2015" IsEnabled="False"/>
+            <MenuItem Header="ON!Timer v1.2.0    © Prowareness 2015" IsEnabled="False"/>
             <Separator />
             <MenuItem Command="cmd:CustomCommands.StartAutoCommand" InputGestureText="A"/>
             <Separator />
@@ -200,9 +171,9 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button IsTabStop="False" Style="{StaticResource MainButtonStyle}" Grid.Column="1" x:Name="startStopResetButton" Click="startStopResetButton_Click" MouseLeave="startStopResetButton_MouseLeave">
-                    <Image RenderOptions.BitmapScalingMode="HighQuality" x:Name="ONButtonImage" Source="ON-transparent.png" Margin="0,10,0,5"/>
-                </Button>
+                <Border BorderBrush="Transparent" BorderThickness="0" Grid.Column="1" Margin="0,10,0,5">
+                    <Image x:Name="startStopResetButton" Style="{StaticResource MainButtonStyle}" MouseDown="startStopResetButton_Click" MouseLeave="startStopResetButton_MouseLeave" RenderOptions.BitmapScalingMode="HighQuality" Source="ON-transparent.png" Margin="3,3,3,3"/>
+                </Border>
 
             </Grid>
 

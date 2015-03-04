@@ -178,10 +178,10 @@ namespace ONtimer
             CustomCommands.ResetToZeroCommand.Execute(null, this);
         }
 
-        private void startStopResetButton_Click(object sender, RoutedEventArgs e)
+        private void startStopResetButton_Click(object sender, MouseButtonEventArgs e)
         {
             clickCount++;
-
+            runButtonPressAnimation();
             if (clickCount == 1)
             {
                 doubleClickTimer.Interval = new TimeSpan(0, 0, 0, 0, 250);
@@ -200,6 +200,7 @@ namespace ONtimer
                     clickCount = 0;
                 }
             }
+            e.Handled = true;
         }
 
         private void autoStartStopTimer()
@@ -403,11 +404,13 @@ namespace ONtimer
         private void ToggleStartStopCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             autoStartStopTimer();
-            if (!startStopResetButton.IsFocused)
-            {
-                Storyboard blinkAnimation = (Storyboard)FindResource("buttonPress");
-                blinkAnimation.Begin(startStopResetButton);
-            }
+            runButtonPressAnimation();
+        }
+
+        private void runButtonPressAnimation()
+        {
+            Storyboard blinkAnimation = (Storyboard)FindResource("buttonPress");
+            blinkAnimation.Begin(startStopResetButton);
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
@@ -494,7 +497,6 @@ namespace ONtimer
             if (e.OriginalSource == secondsSingleBox ) return;
             if (e.OriginalSource == secondsTenBox) return;
             if (e.OriginalSource == startStopResetButton) return;
-            if (e.OriginalSource == ONButtonImage) return;
 
             CustomCommands.ToggleFullscreenCommand.Execute(null, this);
         }
@@ -513,6 +515,7 @@ namespace ONtimer
         {
             Properties.Settings.Default.Save();
         }
+
 
 
     }
