@@ -218,6 +218,17 @@ namespace ONtimer
         public void Start()
         {
             startTicks = Environment.TickCount;
+
+            // This is to prevent rounding issues caused by minor delays. Just add or remove one millisecond.
+            if (Mode == TimerModes.Down)
+            {
+                startTicks++;
+            }
+            else
+            {
+                startTicks--;
+            }
+
             startValue = timeValue;
             timer.Start();
             if (TimerStarted != null)

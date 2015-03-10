@@ -98,7 +98,7 @@
     
     <Window.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="ON!Timer v1.2.0    © Prowareness 2015" IsEnabled="False"/>
+            <MenuItem Header="ON!Timer v1.2.1    © Prowareness 2015" IsEnabled="False"/>
             <Separator />
             <MenuItem Command="cmd:CustomCommands.StartAutoCommand" InputGestureText="A"/>
             <Separator />
